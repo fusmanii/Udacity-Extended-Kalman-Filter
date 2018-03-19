@@ -92,8 +92,14 @@ VectorXd Tools::CalculateRMSE(const vector<VectorXd> &estimations,
 	VectorXd rmse(4);
 	rmse << 0,0,0,0;
 
-	if(estimations.size() == 0 || ground_truth.size() == 0 || estimations.size() == ground_truth.size()){
+	if(estimations.size() == 0 || ground_truth.size() == 0){
 		cout << "ERROR - CalculateRMSE ()" << endl;
+		return rmse;
+	}
+
+	unsigned int n = estimations.size();
+	if(n != ground_truth.size()){
+		cout << "ERROR - CalculateRMSE () - The ground-truth and estimations vectors must have the same size." << endl;
 		return rmse;
 	}
 
@@ -107,9 +113,10 @@ VectorXd Tools::CalculateRMSE(const vector<VectorXd> &estimations,
 	}
 
 	//calculate the mean
-	rmse = rmse/estimations.size();
+	rmse = rmse/n;
 	rmse = rmse.array().sqrt();
 
+	cout << "rmse = " << rmse << endl;
 	return rmse;
 }
 
